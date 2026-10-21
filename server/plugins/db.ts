@@ -8,7 +8,8 @@ export default defineNitroPlugin(async () => {
   if (!import.meta.dev) return
   if ((process.env.DB_AUTO_MIGRATE ?? 'true').toLowerCase() === 'false') return
 
-  const url = process.env.DATABASE_URL
+  // Migrasi memakai koneksi langsung (bukan pooler) sesuai anjuran Neon.
+  const url = process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL
   if (!url) return
 
   const sql = postgres(url, { max: 1, ssl: resolveSsl(url), onnotice: () => {} })

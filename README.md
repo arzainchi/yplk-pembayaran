@@ -26,7 +26,7 @@ Dibangun sesuai `PRD — Aplikasi Pencatatan Pembayaran Siswa YPLK.md` (kebutuha
 ## Prasyarat
 
 - Node.js 22+ dan pnpm
-- PostgreSQL yang dapat diakses
+- Proyek **Neon** (Lakebase Postgres) yang sudah tertaut — lihat `neon.ts` dan `.neon`
 
 ## Menjalankan
 
@@ -43,14 +43,16 @@ Dibangun sesuai `PRD — Aplikasi Pencatatan Pembayaran Siswa YPLK.md` (kebutuha
    ```
 
    ```dotenv
-   DATABASE_URL="postgresql://postgres@127.0.0.1:5432/db_yplk_pembayaran"
-   DB_SSL=false
+   DATABASE_URL="postgresql://...@ep-xxx-pooler...neon.tech/neondb"   # pooled, untuk aplikasi
+   DATABASE_URL_UNPOOLED="postgresql://...@ep-xxx...neon.tech/neondb" # langsung, untuk migrasi
+   NEON_BRANCH="production"
+   DB_SSL=true
    BETTER_AUTH_SECRET="rahasia-acak-minimal-32-karakter"
    BETTER_AUTH_URL="http://localhost:3000"
    DB_AUTO_MIGRATE=true
    ```
 
-   Untuk database terkelola (mis. Neon), set `DATABASE_URL` ke connection string-nya dan `DB_SSL=true`.
+   Variabel `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, dan `NEON_BRANCH` diisi otomatis oleh Neon CLI (`neon init` / `neon deploy` / `neon env pull`) dari layanan yang dideklarasikan di `neon.ts`. Migrasi memakai koneksi langsung (non-pooler), aplikasi memakai koneksi pooled.
 
 3. Buat tabel dan isi data demo:
 
@@ -110,7 +112,8 @@ shared/
 
 ## Catatan produksi
 
-- Deploy di Vercel; jalankan `pnpm db:migrate` sebagai langkah rilis (plugin auto-migrate hanya aktif di dev).
+- Deploy di Vercel; jalankan `pnpm db:migrate` sebagai langkah rilis (plugin auto-migrate hanya aktif di dev). Migrasi memakai `DATABASE_URL_UNPOOLED`.
+- Database dan layanan Neon dikelola lewat `neon.ts` (`neon config plan`, `neon deploy`). Neon Auth sudah aktif di branch `production`, tetapi login aplikasi tetap memakai Better Auth milik aplikasi (username + peran kustom).
 - Zona waktu aplikasi **WITA (Asia/Makassar)**; seluruh format tanggal mengikuti zona ini.
 - Uji kuitansi pada printer thermal yang dipakai sebelum rilis.
 - `.env` tidak di-commit; hanya `.env.example` yang disertakan.
