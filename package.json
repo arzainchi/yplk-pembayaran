@@ -1,0 +1,34 @@
+{
+  "name": "yplk-pembayaran",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx server/database/migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:seed": "tsx server/database/seed.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@nuxt/fonts": "^1.0.1",
+    "@nuxt/ui": "^4.12.0",
+    "better-auth": "^1.7.11",
+    "drizzle-orm": "^0.45.4",
+    "exceljs": "^4.4.0",
+    "nuxt": "^4.6.2",
+    "postgres": "^3.4.9",
+    "vue": "^3.5.44",
+    "vue-router": "^5.4.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@iconify-json/lucide": "^1.2.146",
+    "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15"
+  }
+}
