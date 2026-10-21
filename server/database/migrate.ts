@@ -10,7 +10,8 @@ try {
 }
 
 async function main() {
-  const url = process.env.DATABASE_URL
+  // Migrasi memakai koneksi langsung (bukan pooler) sesuai anjuran Neon.
+  const url = process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL
   if (!url) throw new Error('DATABASE_URL belum diatur. Salin .env.example menjadi .env.')
 
   const sql = postgres(url, { max: 1, ssl: resolveSsl(url), onnotice: () => {} })

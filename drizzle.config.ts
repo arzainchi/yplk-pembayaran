@@ -11,7 +11,8 @@ export default defineConfig({
   schema: './server/database/schema',
   out: './server/database/migrations',
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
+    // Koneksi langsung (bukan pooler) untuk drizzle-kit, sesuai anjuran Neon.
+    url: (process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL)!,
   },
   verbose: true,
   strict: true,
