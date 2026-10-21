@@ -1,0 +1,28 @@
+/* Gaya cetak: kuitansi thermal & laporan.
+   Lebar kertas kuitansi diatur lewat variabel --receipt-width dan
+   disuntikkan sebagai <style> @page oleh halaman kuitansi. */
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Hilangkan latar & bayangan saat mencetak laporan/kuitansi */
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .y-card-shell,
+  .y-card-inner {
+    box-shadow: none !important;
+  }
+}

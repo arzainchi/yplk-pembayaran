@@ -1,0 +1,156 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* ------------------------------------------------------------------ *
+ * Token tema Tailwind (menghasilkan utility: font-*, text-*,         *
+ * rounded-*, shadow-*)                                               *
+ * ------------------------------------------------------------------ */
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+
+  /* Ramp aksen ungu tunggal (design.md: aksen #7a5af8 / deep #6a48f0) */
+  --color-brand-50: #f3f0fe;
+  --color-brand-100: #e9e3fd;
+  --color-brand-200: #d5c9fc;
+  --color-brand-300: #c0a9fa;
+  --color-brand-400: #9d85fb;
+  --color-brand-500: #8a6bf9;
+  --color-brand-600: #7a5af8;
+  --color-brand-700: #6a48f0;
+  --color-brand-800: #5334c9;
+  --color-brand-900: #3f2797;
+  --color-brand-950: #241657;
+
+  /* Radius berlapis (design.md: sm 8, md 12, lg 18, full 999) */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-3xl: 40px;
+
+  /* Skala teks (design.md) */
+  --text-xs: 12px;
+  --text-xs--line-height: 1.4;
+  --text-sm: 13.5px;
+  --text-sm--line-height: 1.45;
+  --text-base: 14.5px;
+  --text-base--line-height: 1.45;
+  --text-body: 15px;
+  --text-body--line-height: 1.45;
+  --text-title: 21px;
+  --text-title--line-height: 1.25;
+  --text-display: 26px;
+  --text-display--line-height: 1.2;
+
+  /* Elevasi (design.md) */
+  --shadow-card: 0 1px 2px rgba(23, 23, 43, .05);
+  --shadow-primary: 0 1px 2px rgba(122, 90, 248, .35);
+  --shadow-overlay: 0 12px 28px rgba(23, 23, 43, .12);
+}
+
+/* ------------------------------------------------------------------ *
+ * Token mentah design.md (hanya custom property, bukan utility)       *
+ * ------------------------------------------------------------------ */
+:root {
+  --color-primary: #7a5af8;
+  --color-primary-deep: #6a48f0;
+  --color-primary-soft: #f1ecfe;
+
+  --color-canvas: #f6f6f8;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #fafafc;
+  --color-surface-raised: #fbfbfc;
+
+  --color-border: #e9e9f0;
+  --color-hover: #f5f5f8;
+  --color-active: #f2f2f5;
+  --color-row-hover: #fafafd;
+  --color-row-selected: #f7f4ff;
+  --color-focus-border: #c8b6fb;
+  --color-focus-ring: rgba(122, 90, 248, .14);
+  --color-toggle-on: #c9b7fa;
+
+  --color-success: #189a4f;
+  --color-success-bg: #e4f6ec;
+  --color-warning: #f0a51f;
+  --color-warning-bg: #fdf3df;
+  --color-danger: #e5484d;
+  --color-danger-bg: #fdebeb;
+  --color-info: #2f6fed;
+  --color-info-bg: #e9f0fd;
+
+  --color-text: #17171d;
+  --color-text-muted: #5b5c66;
+  --color-text-subtle: #9c9daa;
+
+  /* Pemetaan ke variabel tema Nuxt UI */
+  --ui-radius: 8px;
+  --ui-primary: var(--color-brand-600);
+  --ui-secondary: var(--color-brand-600);
+  --ui-success: var(--color-success);
+  --ui-info: var(--color-info);
+  --ui-warning: var(--color-warning);
+  --ui-error: var(--color-danger);
+
+  --ui-text-dimmed: var(--color-text-subtle);
+  --ui-text-muted: var(--color-text-muted);
+  --ui-text-toned: var(--color-text-muted);
+  --ui-text: var(--color-text);
+  --ui-text-highlighted: var(--color-text);
+
+  --ui-bg: var(--color-surface);
+  --ui-bg-muted: var(--color-surface-subtle);
+  --ui-bg-elevated: var(--color-surface-raised);
+  --ui-bg-accented: var(--color-hover);
+
+  --ui-border: var(--color-border);
+  --ui-border-muted: var(--color-border);
+  --ui-border-accented: #dedee8;
+
+  --ui-container: 100rem;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-canvas);
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Angka uang selalu sejajar */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  /* Label kartu/KPI & grup menu */
+  .y-label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--color-text-subtle);
+  }
+
+  /* Baris tabel */
+  .y-row-hover:hover {
+    background-color: var(--color-row-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important;
+    }
+  }
+}
