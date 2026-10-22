@@ -38,7 +38,7 @@ const query = computed(() => {
   return out
 })
 
-const { data, refresh, pending } = await useFetch<{ items: Record<string, unknown>[]; total: number }>(
+const { data, refresh, pending } = useLazyFetch<{ items: Record<string, unknown>[]; total: number }>(
   endpoint,
   { query, default: () => ({ items: [], total: 0 }) },
 )
@@ -175,7 +175,10 @@ defineExpose({ refresh: () => refresh(), openEdit })
           class="w-full sm:w-[190px]"
         />
       </div>
-      <UButton icon="lucide:plus" @click="openCreate">{{ addLabel }}</UButton>
+      <div class="flex flex-wrap items-center gap-2">
+        <slot name="header-actions" />
+        <UButton icon="lucide:plus" @click="openCreate">{{ addLabel }}</UButton>
+      </div>
     </div>
 
     <YCard :description="description">

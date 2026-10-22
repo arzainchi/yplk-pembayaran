@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ title: 'Dashboard' })
 
-const summary = await useFetch<any>('/api/dashboard/summary', {
+const summary = useLazyFetch<any>('/api/dashboard/summary', {
   default: () => ({
     hariIni: 0, hariIniDelta: 0, bulanIni: 0, bulanIniDelta: 0,
     totalTunggakan: 0, siswaBertunggakan: 0, chart: { labels: [], series: [] },

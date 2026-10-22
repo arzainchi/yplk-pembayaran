@@ -19,6 +19,10 @@ export interface CrudConfig {
   afterChange?: (action: 'create' | 'update' | 'delete', id: string, event: H3Event) => Promise<void> | void
 }
 
+function fieldKey(column: any): string {
+  return String(column?.name ?? '').replace(/_([a-z])/g, (_, c: string) => c.toUpperCase())
+}
+
 function coerce(column: any, value: string): unknown {
   switch (column?.dataType) {
     case 'boolean':
@@ -79,7 +83,8 @@ export async function handleCreate(cfg: CrudConfig, event: H3Event) {
   let values = cfg.create.parse(await readBody(event)) as Record<string, unknown>
 
   if (cfg.unique) {
-    const conds = cfg.unique.columns.map((col, i) => eq(col, values[cfg.unique!.columns[i]!.name]))
+    // Nama kolom di database (snake_case) berbeda dengan kunci payload (camelCase).
+    const conds = cfg.unique.columns.map((col) => eq(col, values[fieldKey(col)]))
     const existing = await db.select().from(cfg.table).where(and(...conds)).limit(1)
     if (existing.length) throw createError({ statusCode: 409, statusMessage: cfg.unique.message })
   }

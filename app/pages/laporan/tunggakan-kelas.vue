@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ title: 'Tunggakan Kelas' })
 
-const { data, pending } = await useFetch<any>('/api/laporan/tunggakan-kelas', {
+const { data, pending } = useLazyFetch<any>('/api/laporan/tunggakan-kelas', {
   default: () => ({ rombel: null, items: [], total: 0, jumlahSiswa: 0 }),
 })
 

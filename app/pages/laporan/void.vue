@@ -3,7 +3,7 @@ definePageMeta({ title: 'Transaksi Batal' })
 
 const tab = ref('batal')
 
-const { data, pending } = await useFetch<any>('/api/laporan/void', {
+const { data, pending } = useLazyFetch<any>('/api/laporan/void', {
   default: () => ({ batal: [], audit: [] }),
 })
 

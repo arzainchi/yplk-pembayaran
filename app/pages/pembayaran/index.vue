@@ -25,7 +25,7 @@ const query = computed(() => {
   return out
 })
 
-const { data, refresh, pending } = await useFetch<any>('/api/pembayaran', { query, default: () => ({ items: [], total: 0 }) })
+const { data, refresh, pending } = useLazyFetch<any>('/api/pembayaran', { query, default: () => ({ items: [], total: 0 }) })
 watch([q, fSekolah, fMetode, fStatus, fDari, fSampai], () => { page.value = 1 })
 
 const columns: YColumn[] = [

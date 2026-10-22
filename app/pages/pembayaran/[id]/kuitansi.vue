@@ -5,7 +5,7 @@ const route = useRoute()
 const id = computed(() => String(route.params.id))
 const reprint = computed(() => route.query.salinan === '1')
 
-const { data, pending } = await useFetch<any>(() => `/api/pembayaran/${id.value}`, { default: () => null })
+const { data, pending } = useLazyFetch<any>(() => `/api/pembayaran/${id.value}`, { default: () => null })
 
 useHead({ title: () => `Kuitansi ${data.value?.pembayaran?.nomorKuitansi ?? ''}` })
 

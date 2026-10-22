@@ -13,6 +13,7 @@ const staffGroups: NavGroup[] = [
     items: [
       { label: 'Dashboard', icon: 'lucide:layout-dashboard', to: '/' },
       { label: 'Siswa', icon: 'lucide:users', to: '/siswa' },
+      { label: 'Kenaikan Kelas', icon: 'lucide:trending-up', to: '/akademik/kenaikan-kelas' },
       { label: 'Tagihan', icon: 'lucide:receipt-text', to: '/tagihan' },
       { label: 'Pembayaran', icon: 'lucide:banknote', to: '/pembayaran' },
     ],

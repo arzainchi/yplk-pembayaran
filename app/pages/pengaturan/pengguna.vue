@@ -4,7 +4,7 @@ definePageMeta({ title: 'Pengguna' })
 const toast = useToast()
 const { rombelOptions } = useOpsi()
 
-const { data, refresh, pending } = await useFetch<any>('/api/pengguna', {
+const { data, refresh, pending } = useLazyFetch<any>('/api/pengguna', {
   default: () => ({ items: [] }),
 })
 

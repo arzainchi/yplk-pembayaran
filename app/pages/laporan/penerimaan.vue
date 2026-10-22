@@ -19,7 +19,7 @@ const query = computed(() => {
   return out
 })
 
-const { data, pending } = await useFetch<any>('/api/laporan/penerimaan', {
+const { data, pending } = useLazyFetch<any>('/api/laporan/penerimaan', {
   query,
   default: () => ({ ringkasan: [], perJenis: [], perMetode: [], perSekolah: [], transaksi: [], periode: {} }),
 })
