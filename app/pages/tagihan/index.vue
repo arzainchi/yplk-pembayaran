@@ -25,7 +25,7 @@ const query = computed(() => {
   return out
 })
 
-const { data, refresh, pending } = await useFetch<any>('/api/tagihan', { query, default: () => ({ items: [], total: 0 }) })
+const { data, refresh, pending } = useLazyFetch<any>('/api/tagihan', { query, default: () => ({ items: [], total: 0 }) })
 
 watch([q, fSekolah, fTahun, fJenis, fStatus, fRombel], () => { page.value = 1 })
 
@@ -56,7 +56,7 @@ const genOpen = ref(false)
 const genSaving = ref(false)
 const gen = reactive({ mode: 'tarif', tarifId: '', rombelId: '' })
 
-const { data: tarifData } = await useFetch<any>('/api/tarif', {
+const { data: tarifData } = useLazyFetch<any>('/api/tarif', {
   query: { pageSize: 500 },
   default: () => ({ items: [] }),
 })

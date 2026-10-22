@@ -20,7 +20,7 @@ const query = computed(() => {
   return out
 })
 
-const { data, refresh, pending } = await useFetch<any>('/api/tarif', {
+const { data, refresh, pending } = useLazyFetch<any>('/api/tarif', {
   query,
   default: () => ({ items: [], total: 0 }),
 })

@@ -38,7 +38,7 @@ const query = computed(() => {
   return out
 })
 
-const { data, refresh, pending } = await useFetch<{ items: Record<string, unknown>[]; total: number }>(
+const { data, refresh, pending } = useLazyFetch<{ items: Record<string, unknown>[]; total: number }>(
   endpoint,
   { query, default: () => ({ items: [], total: 0 }) },
 )

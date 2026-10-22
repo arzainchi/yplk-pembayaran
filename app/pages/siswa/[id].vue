@@ -8,7 +8,7 @@ const id = computed(() => String(route.params.id))
 
 const { jenisOptions, tahunAjaranAktif, opsi } = useOpsi()
 
-const { data, refresh, pending } = await useFetch<any>(() => `/api/siswa/${id.value}`, {
+const { data, refresh, pending } = useLazyFetch<any>(() => `/api/siswa/${id.value}`, {
   default: () => null,
 })
 

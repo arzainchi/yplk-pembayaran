@@ -4,7 +4,7 @@ definePageMeta({ title: 'Audit Log' })
 const page = ref(1)
 const pageSize = ref(50)
 
-const { data, pending } = await useFetch<any>('/api/audit-log', {
+const { data, pending } = useLazyFetch<any>('/api/audit-log', {
   query: computed(() => ({ page: page.value, pageSize: pageSize.value })),
   default: () => ({ items: [] }),
 })
