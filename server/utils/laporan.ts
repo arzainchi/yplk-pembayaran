@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, sql } from 'drizzle-orm'
+import { and, asc, count, desc, eq, ilike, or, sql } from 'drizzle-orm'
 import type { H3Event } from 'h3'
 import ExcelJS from 'exceljs'
 import { useDb } from './db'
@@ -354,24 +354,50 @@ export async function handleAuditLogList(event: H3Event) {
   const limit = Math.min(500, Math.max(1, Number(q.pageSize ?? 50)))
   const page = Math.max(1, Number(q.page ?? 1))
 
-  const rows = await db
-    .select({
-      id: auditLog.id,
-      aksi: auditLog.aksi,
-      entitas: auditLog.entitas,
-      entitasId: auditLog.entitasId,
-      dataSesudah: auditLog.dataSesudah,
-      waktu: auditLog.waktu,
-      ipAddress: auditLog.ipAddress,
-      penggunaNama: user.name,
-    })
+  const conds: any[] = []
+  if (typeof q.entitas === 'string' && q.entitas && q.entitas !== 'all') conds.push(eq(auditLog.entitas, q.entitas))
+  if (typeof q.aksi === 'string' && q.aksi && q.aksi !== 'all') conds.push(eq(auditLog.aksi, q.aksi))
+  const term = typeof q.q === 'string' ? q.q.trim() : ''
+  if (term) {
+    conds.push(or(ilike(auditLog.entitasId, `%${term}%`), ilike(user.name, `%${term}%`)))
+  }
+  const where = conds.length ? and(...conds) : undefined
+
+  const join = () =>
+    db
+      .select({
+        id: auditLog.id,
+        aksi: auditLog.aksi,
+        entitas: auditLog.entitas,
+        entitasId: auditLog.entitasId,
+        dataSebelum: auditLog.dataSebelum,
+        dataSesudah: auditLog.dataSesudah,
+        waktu: auditLog.waktu,
+        ipAddress: auditLog.ipAddress,
+        penggunaNama: user.name,
+      })
+      .from(auditLog)
+      .leftJoin(user, eq(auditLog.penggunaId, user.id))
+
+  const rows = await join().where(where).orderBy(desc(auditLog.waktu)).limit(limit).offset((page - 1) * limit)
+  const totalRows = await db
+    .select({ value: count() })
     .from(auditLog)
     .leftJoin(user, eq(auditLog.penggunaId, user.id))
-    .orderBy(desc(auditLog.waktu))
-    .limit(limit)
-    .offset((page - 1) * limit)
+    .where(where)
 
-  return { items: rows, page, pageSize: limit }
+  const [entitasRows, aksiRows] = await Promise.all([
+    db.selectDistinct({ nilai: auditLog.entitas }).from(auditLog).orderBy(asc(auditLog.entitas)),
+    db.selectDistinct({ nilai: auditLog.aksi }).from(auditLog).orderBy(asc(auditLog.aksi)),
+  ])
+
+  return {
+    items: rows,
+    total: Number(totalRows[0]?.value ?? 0),
+    page,
+    pageSize: limit,
+    opsi: { entitas: entitasRows.map((r) => r.nilai), aksi: aksiRows.map((r) => r.nilai) },
+  }
 }
 
 // ---------------------------------------------------------------- Excel

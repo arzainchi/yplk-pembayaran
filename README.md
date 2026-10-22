@@ -4,7 +4,7 @@ Aplikasi web untuk mencatat tagihan dan penerimaan pembayaran siswa di dua sekol
 
 Dibangun sesuai `PRD — Aplikasi Pencatatan Pembayaran Siswa YPLK.md` (kebutuhan) dan `design.md` (sumber kebenaran tampilan).
 
-## Fitur (Fase 1 + 2)
+## Fitur (Fase 1 + 2 + 3)
 
 - **Autentikasi & peran**: login username/password (Better Auth), sesi berakhir otomatis, dua peran — Staf Keuangan/Pengurus dan Wali Kelas — ditegakkan di sisi server.
 - **Data master**: sekolah, tahun ajaran (satu aktif), jurusan, rombel (dengan wali kelas), jenis pembayaran, tarif (target jurusan fleksibel + salin dari tahun ajaran sebelumnya).
@@ -14,6 +14,9 @@ Dibangun sesuai `PRD — Aplikasi Pencatatan Pembayaran Siswa YPLK.md` (kebutuha
 - **Kuitansi thermal**: nomor unik `KW/{KODE_SEKOLAH}/{TAHUN}/{BULAN}/{URUT}`, cetak langsung dari browser (80 mm, dapat diganti 58 mm), penanda SALINAN dan BATAL.
 - **Dashboard & laporan**: KPI penerimaan/tunggakan + grafik penerimaan per sekolah; rekap penerimaan (filter periode/sekolah/jenis/metode), laporan tunggakan, laporan tunggakan kelas untuk wali kelas, daftar transaksi batal, audit log; ekspor Excel (ExcelJS) dan cetak PDF via browser.
 - **Pengguna**: buat/nonaktifkan/reset password akun, penautan wali kelas ke rombel.
+- **Impor siswa dari Excel** (Fase 3): unduh template, unggah `.xlsx`, validasi per baris (NIS/NISN unik, sekolah/jurusan/rombel dikenal) dan laporan baris gagal; siswa valid langsung ditempatkan ke rombel tahun ajaran aktif.
+- **Kenaikan kelas massal** (Fase 3): pratinjau siswa satu rombel beserta total tunggakan, pilih naik kelas / tinggal kelas / luluskan per siswa, peringatan tunggakan sebelum konfirmasi; tagihan tidak ikut dipindah.
+- **Audit log lengkap** (Fase 3): filter entitas/aksi/pencarian, total baris, dan detail perubahan (field sebelum → sesudah) untuk tiap catatan.
 
 ## Teknologi
 
@@ -80,6 +83,14 @@ Dibangun sesuai `PRD — Aplikasi Pencatatan Pembayaran Siswa YPLK.md` (kebutuha
 | `walikelas2` | `walikelas123` | Wali Kelas SMK 10 GP |
 
 > Ganti password akun demo sebelum dipakai di produksi.
+
+### Panduan singkat Fase 3
+
+**Impor siswa** — menu *Siswa* → tombol **Impor Excel** → **Unduh template Excel** → isi satu baris per siswa di lembar `Siswa` (jangan ubah baris judul) → pilih berkas → **Impor sekarang**. Baris yang gagal ditampilkan beserta nomor baris dan alasannya; baris lain tetap masuk.
+
+**Kenaikan kelas** — menu *Kenaikan Kelas* → pilih rombel asal. Sistem menampilkan siswa aktif yang masih berada di rombel itu beserta tunggakannya (tunggakan tidak menghalangi). Pilih tahun ajaran tujuan, rombel naik kelas, dan rombel tinggal kelas (bila ada), lalu atur kolom *Setelah proses* per siswa. Untuk angkatan akhir (kelas 9 / 12) biarkan rombel tujuan kosong dan pilih **Luluskan**. Setelah **Proses kenaikan kelas**, siswa hilang dari daftar rombel asal dan muncul pada rombel tahun ajaran tujuan.
+
+**Audit log** — menu *Audit Log* → saring berdasarkan entitas/aksi atau cari nama petugas / ID entitas → **Detail** menampilkan perubahan field sebelum dan sesudah.
 
 ## Skrip
 

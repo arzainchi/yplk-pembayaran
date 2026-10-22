@@ -175,7 +175,10 @@ defineExpose({ refresh: () => refresh(), openEdit })
           class="w-full sm:w-[190px]"
         />
       </div>
-      <UButton icon="lucide:plus" @click="openCreate">{{ addLabel }}</UButton>
+      <div class="flex flex-wrap items-center gap-2">
+        <slot name="header-actions" />
+        <UButton icon="lucide:plus" @click="openCreate">{{ addLabel }}</UButton>
+      </div>
     </div>
 
     <YCard :description="description">
